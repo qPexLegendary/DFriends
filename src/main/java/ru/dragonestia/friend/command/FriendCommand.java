@@ -44,8 +44,8 @@ public class FriendCommand extends Command {
     public void sendMainForm(Player player, FriendManager manager){
         new SimpleForm("Друзья")
                 .addButton("Мой профиль", ImageType.PATH, manager.getAvatar())
-                .addButton("Список друзей", ImageType.PATH, "texture/ui/icon_multiplayer")
-                .addButton("Добавить друга", ImageType.PATH, "texture/ui/color_plus")
+                .addButton("Список друзей", ImageType.PATH, "textures/ui/icon_multiplayer")
+                .addButton("Добавить друга", ImageType.PATH, "textures/ui/color_plus")
                 .send(player, (target, form ,data) -> {
                     switch (data){
                         case 0: //Мой профиль
@@ -57,7 +57,7 @@ public class FriendCommand extends Command {
                             break;
 
                         case 2: //Добавить друга
-
+                            sendAddFriendForm(target, manager);
                             break;
                     }
                 });
@@ -66,7 +66,7 @@ public class FriendCommand extends Command {
     public void sendProfileForm(Player player, FriendManager manager){
         new SimpleForm("Мой профиль")
                 .setContent(
-                        "Количество друзей: §e" + manager.getFriendsCount() + "§f(" + manager.getOnlineFriendPlayers().size() + " Онлайн§f)\n" +
+                        "Количество друзей: §e" + manager.getFriendsCount() + " §f(§a" + manager.getOnlineFriendPlayers().size() + " Онлайн§f)\n" +
                                 "Количество мест в списке друзей: §e" + manager.getMaxFriendsCount() + " §f(§2" + (manager.getMaxFriendsCount() - manager.getFriendsCount()) + " доступно§f)"
                 )
                 .addButton("Сменить аватарку", ImageType.PATH, manager.getAvatar())
@@ -185,6 +185,11 @@ public class FriendCommand extends Command {
                             return;
                         }
 
+                        if(targetPlayer.equals(target)){
+                            player.sendMessage("§cК сожалению добавить самого себя в друзья нельзя. Попробуйте как-нибудь в другой раз :D");
+                            return;
+                        }
+
                         addPlayerToFriendList(target, targetPlayer, manager);
                     }else{
                         ArrayList<Player> players = new ArrayList<>(Server.getInstance().getOnlinePlayers().values());
@@ -265,8 +270,8 @@ public class FriendCommand extends Command {
         avatars.put("Меч", "textures/ui/strength_effect");
         avatars.put("Утро", "textures/ui/time_1sunrise");
         avatars.put("День", "textures/ui/time_2day");
-        avatars.put("Вечер", "textures/ui/time_3sunset");
-        avatars.put("Ночь", "textures/ui/time_4night");
+        avatars.put("Вечер", "textures/ui/time_4sunset");
+        avatars.put("Ночь", "textures/ui/time_5night");
         avatars.put("Фугу", "textures/items/fish_pufferfish_raw");
         avatars.put("Говно", "textures/items/dye_powder_brown_new");
         avatars.put("Лесные ягоды", "textures/items/sweet_berries");
